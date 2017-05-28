@@ -1,5 +1,6 @@
 #include "kalman_filter.h"
 
+
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
@@ -59,6 +60,13 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   z_pred << range, bearing, range_rate;
 
   VectorXd y = z - z_pred;
+  // make sure to normalize ϕ in the y vector so that its angle is between −pi and pi
+  while (y(1) < -PI) {
+    y(1) += 2 * PI;
+  }
+  while (y(1) > PI) {
+    y(1) -= 2 * PI;
+  }
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();

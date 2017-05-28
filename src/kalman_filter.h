@@ -23,6 +23,9 @@ public:
   // measurement covariance matrix
   Eigen::MatrixXd R_;
 
+  // define PI constant
+  const double PI  = 3.141592653589793238463;
+
   /**
    * Constructor
    */
